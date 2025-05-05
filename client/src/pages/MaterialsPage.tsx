@@ -42,6 +42,39 @@ const MaterialsPage = () => {
     }
   ];
 
+  const renderMaterialCard = (material) => (
+    <Card key={material.id} className="hover:shadow-md transition-shadow dark:bg-gray-800 dark:border-gray-700">
+      <CardHeader className="pb-2">
+        <div className="flex items-start gap-3">
+          <div className={`p-3 rounded-lg bg-${getFileColorClass(material.type)}/10 dark:bg-${getFileColorClass(material.type)}/5`}>
+            <i className={`fas fa-file-${getFileIcon(material.type)} text-xl text-${getFileColorClass(material.type)}`}></i>
+          </div>
+          <div className="flex-1">
+            <CardTitle className="text-base font-medium dark:text-white">{material.name}</CardTitle>
+            <p className="text-xs text-neutral-500 dark:text-gray-400">
+              {material.size} • {material.date}
+            </p>
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="flex justify-between mb-3">
+          <span className="text-sm dark:text-gray-300">Extracted Concepts</span>
+          <span className="text-sm font-medium dark:text-white">{material.concepts}</span>
+        </div>
+        
+        <div className="flex justify-between">
+          <Button variant="outline" size="sm" className="text-xs dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-600">
+            <i className="fas fa-eye mr-1"></i> View
+          </Button>
+          <Button variant="outline" size="sm" className="text-xs text-primary dark:border-gray-600 dark:text-primary-foreground dark:hover:bg-gray-600">
+            <i className="fas fa-brain mr-1"></i> Teach This
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
   return (
     <div className="flex-1 overflow-y-auto p-6">
       <div className="max-w-5xl mx-auto">
@@ -66,38 +99,7 @@ const MaterialsPage = () => {
           
           <TabsContent value="all" className="mt-0">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {mockMaterials.map((material) => (
-                <Card key={material.id} className="hover:shadow-md transition-shadow dark:bg-gray-800 dark:border-gray-700">
-                  <CardHeader className="pb-2">
-                    <div className="flex items-start gap-3">
-                      <div className={`p-3 rounded-lg bg-${getFileColorClass(material.type)}/10 dark:bg-${getFileColorClass(material.type)}/5`}>
-                        <i className={`fas fa-file-${getFileIcon(material.type)} text-xl text-${getFileColorClass(material.type)}`}></i>
-                      </div>
-                      <div className="flex-1">
-                        <CardTitle className="text-base font-medium dark:text-white">{material.name}</CardTitle>
-                        <p className="text-xs text-neutral-500 dark:text-gray-400">
-                          {material.size} • {material.date}
-                        </p>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex justify-between mb-3">
-                      <span className="text-sm dark:text-gray-300">Extracted Concepts</span>
-                      <span className="text-sm font-medium dark:text-white">{material.concepts}</span>
-                    </div>
-                    
-                    <div className="flex justify-between">
-                      <Button variant="outline" size="sm" className="text-xs dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-600">
-                        <i className="fas fa-eye mr-1"></i> View
-                      </Button>
-                      <Button variant="outline" size="sm" className="text-xs text-primary dark:border-gray-600 dark:text-primary-foreground dark:hover:bg-gray-600">
-                        <i className="fas fa-brain mr-1"></i> Teach This
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+              {mockMaterials.map(renderMaterialCard)}
             </div>
           </TabsContent>
           
@@ -105,80 +107,15 @@ const MaterialsPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {mockMaterials
                 .filter(m => m.type === "pdf" || m.type === "docx")
-                .map((material) => (
-                  // Same card component as above
-                  <Card key={material.id} className="hover:shadow-md transition-shadow dark:bg-gray-800 dark:border-gray-700">
-                    <CardHeader className="pb-2">
-                      <div className="flex items-start gap-3">
-                        <div className={`p-3 rounded-lg bg-${getFileColorClass(material.type)}/10 dark:bg-${getFileColorClass(material.type)}/5`}>
-                          <i className={`fas fa-file-${getFileIcon(material.type)} text-xl text-${getFileColorClass(material.type)}`}></i>
-                        </div>
-                        <div className="flex-1">
-                          <CardTitle className="text-base font-medium dark:text-white">{material.name}</CardTitle>
-                          <p className="text-xs text-neutral-500 dark:text-gray-400">
-                            {material.size} • {material.date}
-                          </p>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex justify-between mb-3">
-                        <span className="text-sm dark:text-gray-300">Extracted Concepts</span>
-                        <span className="text-sm font-medium dark:text-white">{material.concepts}</span>
-                      </div>
-                      
-                      <div className="flex justify-between">
-                        <Button variant="outline" size="sm" className="text-xs dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-600">
-                          <i className="fas fa-eye mr-1"></i> View
-                        </Button>
-                        <Button variant="outline" size="sm" className="text-xs text-primary dark:border-gray-600 dark:text-primary-foreground dark:hover:bg-gray-600">
-                          <i className="fas fa-brain mr-1"></i> Teach This
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                .map(renderMaterialCard)}
             </div>
           </TabsContent>
           
-          {/* Similar TabsContent for "presentations" and "notes" */}
           <TabsContent value="presentations" className="mt-0">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {mockMaterials
                 .filter(m => m.type === "ppt")
-                .map((material) => (
-                  <Card key={material.id} className="hover:shadow-md transition-shadow">
-                    {/* Same card content */}
-                    <CardHeader className="pb-2">
-                      <div className="flex items-start gap-3">
-                        <div className={`p-3 rounded-lg bg-${getFileColorClass(material.type)}/10`}>
-                          <i className={`fas fa-file-${getFileIcon(material.type)} text-xl text-${getFileColorClass(material.type)}`}></i>
-                        </div>
-                        <div className="flex-1">
-                          <CardTitle className="text-base font-medium">{material.name}</CardTitle>
-                          <p className="text-xs text-neutral-500">
-                            {material.size} • {material.date}
-                          </p>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex justify-between mb-3">
-                        <span className="text-sm">Extracted Concepts</span>
-                        <span className="text-sm font-medium">{material.concepts}</span>
-                      </div>
-                      
-                      <div className="flex justify-between">
-                        <Button variant="outline" size="sm" className="text-xs">
-                          <i className="fas fa-eye mr-1"></i> View
-                        </Button>
-                        <Button variant="outline" size="sm" className="text-xs text-primary">
-                          <i className="fas fa-brain mr-1"></i> Teach This
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                .map(renderMaterialCard)}
             </div>
           </TabsContent>
           
@@ -186,39 +123,7 @@ const MaterialsPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {mockMaterials
                 .filter(m => m.type === "txt")
-                .map((material) => (
-                  <Card key={material.id} className="hover:shadow-md transition-shadow">
-                    {/* Same card content */}
-                    <CardHeader className="pb-2">
-                      <div className="flex items-start gap-3">
-                        <div className={`p-3 rounded-lg bg-${getFileColorClass(material.type)}/10`}>
-                          <i className={`fas fa-file-${getFileIcon(material.type)} text-xl text-${getFileColorClass(material.type)}`}></i>
-                        </div>
-                        <div className="flex-1">
-                          <CardTitle className="text-base font-medium">{material.name}</CardTitle>
-                          <p className="text-xs text-neutral-500">
-                            {material.size} • {material.date}
-                          </p>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex justify-between mb-3">
-                        <span className="text-sm">Extracted Concepts</span>
-                        <span className="text-sm font-medium">{material.concepts}</span>
-                      </div>
-                      
-                      <div className="flex justify-between">
-                        <Button variant="outline" size="sm" className="text-xs">
-                          <i className="fas fa-eye mr-1"></i> View
-                        </Button>
-                        <Button variant="outline" size="sm" className="text-xs text-primary">
-                          <i className="fas fa-brain mr-1"></i> Teach This
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                .map(renderMaterialCard)}
             </div>
           </TabsContent>
         </Tabs>
