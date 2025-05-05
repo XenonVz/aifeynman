@@ -1,0 +1,154 @@
+Project Name: “Feynman Teacher”
+
+High-Level Goal
+Build a mobile/web app that instantiates an AI “teenager” persona you can teach anything to—with built-in support for the Feynman Technique (explain, review, simplify, analogize)—plus the ability to upload source materials and automatically flag any teaching gaps.
+
+1. User Stories
+Onboard & Persona setup
+
+As a user, I want to choose the AI’s “teen profile” (age 14–18, interests, language style) so the app feels natural.
+
+As a user, I want to give the AI a name, gender pronouns, and avatar so I can build rapport.
+
+Material Upload & Gap Analysis
+
+As a user, I can upload PDFs, slides, or text documents containing the content I want to teach.
+
+The AI parses the material, extracts key concepts and learning objectives.
+
+After teaching, the AI compares its “explained content” against the uploaded source and generates a “gap report” that lists any topics or sub-concepts not yet covered.
+
+Teach & Explain Cycle
+
+As a user, I can present a topic (e.g. “Newton’s first law”) in text or voice.
+
+The AI “teen” attempts to explain it at a high-school level.
+
+I can flag gaps (“That doesn’t make sense”) or ask for deeper detail.
+
+The AI refines its explanation, simplifying or expanding until it can teach it clearly.
+
+Feynman Technique Workflow
+
+Guided “4-step Feynman coach”:
+
+Explain – AI gives an initial explanation.
+
+Review – User marks missing bits.
+
+Simplify – AI rewrites in plain language.
+
+Analogize – AI generates analogies/metaphors.
+
+Visual progress tracker showing which steps are complete.
+
+Knowledge Checks & Quizzes
+
+After a teaching session, prompt the AI to quiz itself or quiz the user: “Explain X in two sentences,” “List the key points,” “Solve a quick problem.”
+
+Memory & Personalization
+
+The AI should remember “topics mastered” and “common misunderstandings” for future sessions.
+
+I can tag sessions (“Physics: projectile motion”) and export my teaching log.
+
+Collaboration & Sharing
+
+I can share a saved “lesson” (explanation + notes + quiz) as a PDF or link.
+
+Optionally invite a friend to review the AI’s teaching.
+
+2. Functional Requirements
+Persona Engine
+
+Pre-built teenage personas (14–18 y/o), with adjustable tone (slang frequency, formality).
+
+Custom avatar + name + pronouns.
+
+Material Upload & Gap-Analysis Module
+
+Accept uploads: PDF, PPT, DOCX or plain text.
+
+NLP pipeline to extract headings, definitions, formulas, and key terms.
+
+After each lesson, auto-generate a “gap report” showing any concepts from the source not yet taught, with links to request the AI cover those.
+
+Natural-Language Interface
+
+Text chat + optional voice-to-text and text-to-speech with teen-style voice.
+
+Rich formatting for equations, bullet lists, images.
+
+Feynman Technique Module
+
+Step-by-step prompts to both user and AI.
+
+UI flows that guide through Explain → Review → Simplify → Analogize.
+
+Session Management
+
+Save/load sessions.
+
+Tag, categorize, and search by topic.
+
+Attach and revisit uploaded materials per session.
+
+Quiz & Assessment
+
+Auto-generate fill-in-the-blank, multiple-choice, and short-answer questions.
+
+Self-grading or manual review.
+
+Analytics & Progress
+
+Track “mastery score” per topic.
+
+Dashboard: lessons taught, gaps filled, quiz scores.
+
+Export & Share
+
+Export lesson notes + AI explanations + gap reports as PDF or markdown.
+
+Integration with Google Drive/OneDrive optional.
+
+3. Technical & Integration Details (OPTIONAL BUT RECOMMENDED)
+AI Backend
+
+Use GPT-4-level API (context-window ≥ 8k tokens).
+
+Persona prompt and uploaded content embedded in system context.
+
+Retrieval-augmented generation (RAG) or fine-tuning for user memories.
+
+Frontend
+
+React (web) or React Native (mobile) preferred.
+
+TailwindCSS styling; teen-friendly UI (bright accents, rounded corners).
+
+Storage & Processing
+
+Store sessions, materials, and gap-reports in Firestore/PostgreSQL.
+
+File-processing service to parse uploads (e.g. Apache Tika, Python NLP).
+
+Encryption at rest; GDPR/CCPA compliance.
+
+APIs & Security
+
+OAuth2 for login.
+
+Rate-limit AI API calls; token refresh and secure key management.
+
+Offline Mode (optional)
+
+Cache last session and uploaded materials for offline review.
+
+4. Non-Functional Requirements
+Performance: UI response <1s, AI replies <2s.
+
+Scalability: support 10k+ concurrent users.
+
+Accessibility: WCAG 2.1 AA compliance.
+
+Localization: English initially
