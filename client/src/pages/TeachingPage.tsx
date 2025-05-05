@@ -100,7 +100,7 @@ const TeachingPage = ({ persona, user }: TeachingPageProps) => {
     <>
       {/* Session Header (Desktop only) */}
       {!isMobile && (
-        <div className="bg-white border-b border-neutral-200 p-4 flex items-center justify-between">
+        <div className="bg-white dark:bg-gray-900 border-b border-neutral-200 dark:border-gray-800 p-4 flex items-center justify-between">
           <div className="flex items-center">
             <div className="flex items-center mr-4">
               <img 
@@ -109,8 +109,8 @@ const TeachingPage = ({ persona, user }: TeachingPageProps) => {
                 className="w-10 h-10 rounded-full object-cover mr-3"
               />
               <div>
-                <p className="font-medium">Teaching <span>{persona?.name}</span></p>
-                <p className="text-xs text-neutral-500">Session started {getSessionTime()}</p>
+                <p className="font-medium dark:text-white">Teaching <span>{persona?.name}</span></p>
+                <p className="text-xs text-neutral-500 dark:text-gray-400">Session started {getSessionTime()}</p>
               </div>
             </div>
           </div>
@@ -119,24 +119,24 @@ const TeachingPage = ({ persona, user }: TeachingPageProps) => {
             <Button 
               variant="outline" 
               size="sm" 
-              className="flex items-center px-3 py-1.5 text-sm"
+              className="flex items-center px-3 py-1.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700"
               onClick={handleSaveSession}
             >
-              <i className="fas fa-save mr-1.5 text-neutral-500"></i>
+              <i className="fas fa-save mr-1.5 text-neutral-500 dark:text-gray-400"></i>
               <span>Save Session</span>
             </Button>
             <Button 
               variant="outline" 
               size="sm" 
-              className="flex items-center px-3 py-1.5 text-sm"
+              className="flex items-center px-3 py-1.5 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700"
               onClick={() => setShowMaterialUpload(true)}
             >
-              <i className="fas fa-file-upload mr-1.5 text-neutral-500"></i>
+              <i className="fas fa-file-upload mr-1.5 text-neutral-500 dark:text-gray-400"></i>
               <span>Upload Material</span>
             </Button>
             <Button 
               size="sm" 
-              className="flex items-center px-3 py-1.5 text-sm"
+              className="flex items-center px-3 py-1.5 text-sm dark:bg-primary dark:hover:bg-primary-dark"
               onClick={() => generateQuiz()}
             >
               <i className="fas fa-list-check mr-1.5"></i>
@@ -171,9 +171,9 @@ const TeachingPage = ({ persona, user }: TeachingPageProps) => {
         {isLoading && (
           <div className="flex justify-center">
             <div className="animate-pulse flex space-x-2 items-center">
-              <div className="h-2 w-2 bg-neutral-300 rounded-full"></div>
-              <div className="h-2 w-2 bg-neutral-300 rounded-full"></div>
-              <div className="h-2 w-2 bg-neutral-300 rounded-full"></div>
+              <div className="h-2 w-2 bg-neutral-300 dark:bg-gray-600 rounded-full"></div>
+              <div className="h-2 w-2 bg-neutral-300 dark:bg-gray-600 rounded-full"></div>
+              <div className="h-2 w-2 bg-neutral-300 dark:bg-gray-600 rounded-full"></div>
             </div>
           </div>
         )}
