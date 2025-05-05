@@ -30,7 +30,7 @@ const ChatMessage = ({
         <div
           className={`flex-1 ${
             isAi
-              ? "bg-white chat-bubble-ai rounded-2xl"
+              ? "bg-white dark:bg-gray-800 chat-bubble-ai rounded-2xl dark:text-gray-100"
               : "bg-primary chat-bubble-user rounded-2xl text-white"
           } px-4 py-3 shadow-sm`}
         >
@@ -45,13 +45,13 @@ const ChatMessage = ({
       {showFeedback && isAi && onFeedback && (
         <div className="mt-3 ml-11 flex space-x-2">
           <button 
-            className="px-3 py-1.5 text-xs bg-neutral-100 text-neutral-700 rounded-full hover:bg-neutral-200"
+            className="px-3 py-1.5 text-xs bg-neutral-100 dark:bg-gray-800 text-neutral-700 dark:text-gray-300 rounded-full hover:bg-neutral-200 dark:hover:bg-gray-700"
             onClick={() => onFeedback("good")}
           >
             <i className="fas fa-check text-accent mr-1"></i> Good explanation
           </button>
           <button 
-            className="px-3 py-1.5 text-xs bg-neutral-100 text-neutral-700 rounded-full hover:bg-neutral-200"
+            className="px-3 py-1.5 text-xs bg-neutral-100 dark:bg-gray-800 text-neutral-700 dark:text-gray-300 rounded-full hover:bg-neutral-200 dark:hover:bg-gray-700"
             onClick={() => onFeedback("confused")}
           >
             <i className="fas fa-question-circle mr-1"></i> Still confused
@@ -61,20 +61,20 @@ const ChatMessage = ({
       
       {message.feynmanStep === 'review' && isAi && (
         <div className="mt-3 ml-11">
-          <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-200">
-            <p className="text-xs font-medium mb-2">Feynman Review Step</p>
-            <p className="text-sm mb-3">What parts should I improve in my explanation?</p>
+          <div className="p-3 bg-neutral-50 dark:bg-gray-800 rounded-xl border border-neutral-200 dark:border-gray-700">
+            <p className="text-xs font-medium mb-2 dark:text-gray-300">Feynman Review Step</p>
+            <p className="text-sm mb-3 dark:text-gray-300">What parts should I improve in my explanation?</p>
             <div className="flex flex-wrap gap-2">
-              <button className="px-3 py-1.5 text-xs bg-white border border-neutral-200 text-neutral-700 rounded-full hover:bg-neutral-100 hover:border-neutral-300">
+              <button className="px-3 py-1.5 text-xs bg-white dark:bg-gray-700 border border-neutral-200 dark:border-gray-600 text-neutral-700 dark:text-gray-300 rounded-full hover:bg-neutral-100 dark:hover:bg-gray-600 hover:border-neutral-300 dark:hover:border-gray-500">
                 Need simpler language
               </button>
-              <button className="px-3 py-1.5 text-xs bg-white border border-neutral-200 text-neutral-700 rounded-full hover:bg-neutral-100 hover:border-neutral-300">
+              <button className="px-3 py-1.5 text-xs bg-white dark:bg-gray-700 border border-neutral-200 dark:border-gray-600 text-neutral-700 dark:text-gray-300 rounded-full hover:bg-neutral-100 dark:hover:bg-gray-600 hover:border-neutral-300 dark:hover:border-gray-500">
                 Add real examples
               </button>
-              <button className="px-3 py-1.5 text-xs bg-white border border-neutral-200 text-neutral-700 rounded-full hover:bg-neutral-100 hover:border-neutral-300">
+              <button className="px-3 py-1.5 text-xs bg-white dark:bg-gray-700 border border-neutral-200 dark:border-gray-600 text-neutral-700 dark:text-gray-300 rounded-full hover:bg-neutral-100 dark:hover:bg-gray-600 hover:border-neutral-300 dark:hover:border-gray-500">
                 Correct misconception
               </button>
-              <button className="px-3 py-1.5 text-xs bg-accent/20 border border-accent/30 text-accent-dark rounded-full">
+              <button className="px-3 py-1.5 text-xs bg-accent/20 dark:bg-accent/10 border border-accent/30 text-accent-dark dark:text-accent rounded-full">
                 <i className="fas fa-check mr-1"></i> Good, move to Simplify step
               </button>
             </div>

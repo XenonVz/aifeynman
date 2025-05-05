@@ -53,12 +53,25 @@
   }
 
   body {
-    @apply font-sans antialiased bg-neutral-50 text-neutral-900;
+    @apply font-sans antialiased bg-neutral-50 dark:bg-gray-950 text-neutral-900 dark:text-white;
     -webkit-font-smoothing: antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold;
+  }
+  
+  .dark body {
+    color-scheme: dark;
+  }
+
+  /* Additional dark mode styling for common elements */
+  .dark button, .dark input, .dark textarea, .dark select {
+    @apply bg-gray-800 border-gray-700 text-white;
+  }
+
+  .dark input::placeholder, .dark textarea::placeholder {
+    @apply text-gray-500;
   }
 }
 
