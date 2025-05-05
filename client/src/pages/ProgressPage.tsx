@@ -54,64 +54,70 @@ const ProgressPage = () => {
     { name: "Cell Biology: Mitosis", score: 78, date: "May 10, 2024" }
   ];
 
+  // Custom styles for recharts components
+  const customBarStyle = {
+    fill: "hsl(var(--accent))",
+    background: "transparent"
+  };
+
   return (
     <div className="flex-1 overflow-y-auto p-6">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-2xl font-bold mb-6">Learning Progress</h1>
+        <h1 className="text-2xl font-bold mb-6 dark:text-white">Learning Progress</h1>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Sessions By Subject */}
-          <Card>
+          <Card className="dark:bg-gray-800 dark:border-gray-700">
             <CardHeader>
-              <CardTitle className="text-lg">Teaching Sessions by Subject</CardTitle>
+              <CardTitle className="text-lg dark:text-white">Teaching Sessions by Subject</CardTitle>
             </CardHeader>
             <CardContent className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={sessionsBySubject}>
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="sessions" fill="hsl(var(--primary))" />
+                <BarChart data={sessionsBySubject} barSize={40}>
+                  <XAxis dataKey="name" tick={{ fill: 'var(--foreground, black)' }} />
+                  <YAxis tick={{ fill: 'var(--foreground, black)' }} />
+                  <Tooltip contentStyle={{ backgroundColor: 'var(--background, white)', borderColor: 'var(--border, #e5e7eb)' }} />
+                  <Bar dataKey="sessions" fill="hsl(var(--primary))" background={{ fill: 'transparent' }} />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
           
           {/* Feynman Step Completion */}
-          <Card>
+          <Card className="dark:bg-gray-800 dark:border-gray-700">
             <CardHeader>
-              <CardTitle className="text-lg">Feynman Steps Completed</CardTitle>
+              <CardTitle className="text-lg dark:text-white">Feynman Steps Completed</CardTitle>
             </CardHeader>
             <CardContent className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={feynmanStepCompletion}>
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="completed" fill="hsl(var(--accent))" />
+                <BarChart data={feynmanStepCompletion} barSize={40} margin={{ left: 10, right: 10 }}>
+                  <XAxis dataKey="name" tick={{ fill: 'var(--foreground, black)' }} interval={0} />
+                  <YAxis tick={{ fill: 'var(--foreground, black)' }} />
+                  <Tooltip contentStyle={{ backgroundColor: 'var(--background, white)', borderColor: 'var(--border, #e5e7eb)' }} />
+                  <Bar dataKey="completed" fill="hsl(var(--accent))" background={{ fill: 'transparent' }} />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
           
           {/* Quiz Scores Over Time */}
-          <Card>
+          <Card className="dark:bg-gray-800 dark:border-gray-700">
             <CardHeader>
-              <CardTitle className="text-lg">Quiz Scores Over Time</CardTitle>
+              <CardTitle className="text-lg dark:text-white">Quiz Scores Over Time</CardTitle>
             </CardHeader>
             <CardContent className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={quizScores}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis domain={[0, 100]} />
-                  <Tooltip />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border, #e5e7eb)" />
+                  <XAxis dataKey="name" tick={{ fill: 'var(--foreground, black)' }} />
+                  <YAxis domain={[0, 100]} tick={{ fill: 'var(--foreground, black)' }} />
+                  <Tooltip contentStyle={{ backgroundColor: 'var(--background, white)', borderColor: 'var(--border, #e5e7eb)' }} />
                   <Line 
                     type="monotone" 
                     dataKey="score" 
                     stroke="hsl(var(--primary))" 
                     strokeWidth={2} 
-                    dot={{ r: 4 }}
+                    dot={{ r: 4, fill: "hsl(var(--primary))" }}
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -119,9 +125,9 @@ const ProgressPage = () => {
           </Card>
           
           {/* Gap Coverage */}
-          <Card>
+          <Card className="dark:bg-gray-800 dark:border-gray-700">
             <CardHeader>
-              <CardTitle className="text-lg">Concept Coverage</CardTitle>
+              <CardTitle className="text-lg dark:text-white">Concept Coverage</CardTitle>
             </CardHeader>
             <CardContent className="h-80">
               <ResponsiveContainer width="100%" height="100%">
@@ -140,7 +146,7 @@ const ProgressPage = () => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip />
+                  <Tooltip contentStyle={{ backgroundColor: 'var(--background, white)', borderColor: 'var(--border, #e5e7eb)' }} />
                 </PieChart>
               </ResponsiveContainer>
             </CardContent>
@@ -148,28 +154,28 @@ const ProgressPage = () => {
         </div>
         
         {/* Recent Topics */}
-        <Card>
+        <Card className="dark:bg-gray-800 dark:border-gray-700">
           <CardHeader>
-            <CardTitle className="text-lg">Recently Taught Topics</CardTitle>
+            <CardTitle className="text-lg dark:text-white">Recently Taught Topics</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-3 px-4">Topic</th>
-                    <th className="text-left py-3 px-4">Quiz Score</th>
-                    <th className="text-left py-3 px-4">Date</th>
-                    <th className="text-left py-3 px-4">Actions</th>
+                  <tr className="border-b dark:border-gray-700">
+                    <th className="text-left py-3 px-4 dark:text-gray-300">Topic</th>
+                    <th className="text-left py-3 px-4 dark:text-gray-300">Quiz Score</th>
+                    <th className="text-left py-3 px-4 dark:text-gray-300">Date</th>
+                    <th className="text-left py-3 px-4 dark:text-gray-300">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {recentTopics.map((topic, index) => (
-                    <tr key={index} className="border-b">
-                      <td className="py-3 px-4">{topic.name}</td>
-                      <td className="py-3 px-4">
+                    <tr key={index} className="border-b dark:border-gray-700">
+                      <td className="py-3 px-4 dark:text-white">{topic.name}</td>
+                      <td className="py-3 px-4 dark:text-white">
                         <div className="flex items-center">
-                          <div className="w-16 h-2 bg-neutral-200 rounded-full mr-2">
+                          <div className="w-16 h-2 bg-neutral-200 dark:bg-gray-600 rounded-full mr-2">
                             <div
                               className={`h-full rounded-full ${
                                 topic.score >= 90 
@@ -184,7 +190,7 @@ const ProgressPage = () => {
                           <span>{topic.score}%</span>
                         </div>
                       </td>
-                      <td className="py-3 px-4">{topic.date}</td>
+                      <td className="py-3 px-4 dark:text-white">{topic.date}</td>
                       <td className="py-3 px-4">
                         <div className="flex space-x-2">
                           <button className="text-xs text-primary hover:underline">Review</button>
