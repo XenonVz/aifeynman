@@ -48,6 +48,35 @@ const ProgressPage = () => {
   
   const COLORS = ["#34D399", "#F59E0B", "#EF4444"];
   
+  // Custom render function for pie chart labels
+  const renderCustomizedLabel = (props: any) => {
+    const { cx, cy, midAngle, innerRadius, outerRadius, percent, index, name } = props;
+    const RADIAN = Math.PI / 180;
+    // Position the label further away from the center
+    const radius = outerRadius * 1.2;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    
+    return (
+      <text 
+        x={x} 
+        y={y} 
+        fill={COLORS[index % COLORS.length]} 
+        textAnchor={x > cx ? 'start' : 'end'} 
+        dominantBaseline="central"
+        className="font-medium"
+        style={{ 
+          fontSize: '12px', 
+          fontWeight: 'bold', 
+          textShadow: '0px 0px 3px rgba(255,255,255,0.8)',
+          fill: COLORS[index % COLORS.length] 
+        }}
+      >
+        {name}: {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
+  
   const recentTopics = [
     { name: "Newton's Laws of Motion", score: 92, date: "May 15, 2024" },
     { name: "Algebra: Quadratic Equations", score: 88, date: "May 12, 2024" },
@@ -130,11 +159,11 @@ const ProgressPage = () => {
                     data={gapsCoverage}
                     cx="50%"
                     cy="50%"
-                    labelLine={false}
+                    labelLine={true}
                     outerRadius={100}
                     fill="#8884d8"
                     dataKey="value"
-                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    label={renderCustomizedLabel}
                   >
                     {gapsCoverage.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
