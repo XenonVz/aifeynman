@@ -70,16 +70,9 @@ const Sidebar = ({ user, persona }: SidebarProps) => {
     mutationFn: async (updatedPersona: Partial<AiPersona>) => {
       if (!persona) throw new Error("No persona to update");
       
-      // In a real implementation, we would call the API
-      // const response = await apiRequest('PATCH', `/api/personas/${persona.id}`, updatedPersona);
-      // return await response.json();
-      
-      // For now, just return the updated persona
-      return {
-        ...persona,
-        ...updatedPersona,
-        updatedAt: new Date()
-      } as AiPersona;
+      // Call the API to update the persona
+      const response = await apiRequest('PATCH', `/api/personas/${persona.id}`, updatedPersona);
+      return await response.json();
     },
     onSuccess: (updatedPersona) => {
       // Update the persona in the cache
@@ -91,9 +84,10 @@ const Sidebar = ({ user, persona }: SidebarProps) => {
       setIsEditDialogOpen(false);
     },
     onError: (error) => {
+      console.error("Failed to update persona:", error);
       toast({
         title: "Update Failed",
-        description: `Failed to update profile: ${error instanceof Error ? error.message : "Unknown error"}`,
+        description: `Failed to update profile. Please try again.`,
         variant: "destructive"
       });
     }

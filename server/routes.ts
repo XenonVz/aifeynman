@@ -48,6 +48,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(persona);
   });
 
+  app.patch("/api/personas/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid persona ID" });
+      }
+      
+      const persona = await storage.getAiPersona(id);
+      if (!persona) {
+        return res.status(404).json({ message: "Persona not found" });
+      }
+      
+      // Validate update data
+      const updateSchema = z.object({
+        name: z.string().min(1).optional(),
+        age: z.number().int().min(10).max(120).optional(),
+        interests: z.array(z.string()).min(1).optional(),
+        communicationStyle: z.enum(["formal", "casual", "balanced"]).optional(),
+        avatarUrl: z.string().optional().nullable()
+      });
+      
+      const updateData = updateSchema.parse(req.body);
+      const updatedPersona = await storage.updateAiPersona(id, updateData);
+      res.json(updatedPersona);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid update data" });
+    }
+  });
+
   // Session Routes
   app.post("/api/sessions", async (req, res) => {
     try {
@@ -81,6 +110,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
     
     res.json(session);
+  });
+
+  app.patch("/api/sessions/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid session ID" });
+      }
+      
+      const session = await storage.getSession(id);
+      if (!session) {
+        return res.status(404).json({ message: "Session not found" });
+      }
+      
+      // Validate update data
+      const updateSchema = z.object({
+        title: z.string().optional(),
+        topic: z.string().nullable().optional(),
+        currentStep: z.enum(["explain", "review", "simplify", "analogize"]).nullable().optional(),
+        stepsCompleted: z.array(z.string()).nullable().optional(),
+        completed: z.boolean().optional()
+      });
+      
+      const updateData = updateSchema.parse(req.body);
+      const updatedSession = await storage.updateSession(id, updateData);
+      res.json(updatedSession);
+    } catch (error) {
+      console.error("Session update error:", error);
+      res.status(400).json({ message: "Invalid update data" });
+    }
   });
 
   // Message Routes
