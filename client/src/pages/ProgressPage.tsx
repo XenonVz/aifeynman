@@ -22,7 +22,7 @@ const ProgressPage = () => {
     { name: "Math", sessions: 12 },
     { name: "Biology", sessions: 5 },
     { name: "Chemistry", sessions: 3 },
-    { name: "English", sessions: 6 }
+    { name: "Computer Science", sessions: 7 }
   ];
   
   const feynmanStepCompletion = [
@@ -54,10 +54,17 @@ const ProgressPage = () => {
     { name: "Cell Biology: Mitosis", score: 78, date: "May 10, 2024" }
   ];
 
-  // Custom styles for recharts components
-  const customBarStyle = {
-    fill: "hsl(var(--accent))",
-    background: "transparent"
+  // Custom tooltip styles to match theme
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="p-2 bg-background border border-border rounded shadow dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+          <p className="font-medium">{label}</p>
+          <p>{`${payload[0].name}: ${payload[0].value}`}</p>
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -73,11 +80,21 @@ const ProgressPage = () => {
             </CardHeader>
             <CardContent className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={sessionsBySubject} barSize={40}>
-                  <XAxis dataKey="name" tick={{ fill: 'var(--foreground, black)' }} />
-                  <YAxis tick={{ fill: 'var(--foreground, black)' }} />
-                  <Tooltip contentStyle={{ backgroundColor: 'var(--background, white)', borderColor: 'var(--border, #e5e7eb)' }} />
-                  <Bar dataKey="sessions" fill="hsl(var(--primary))" background={{ fill: 'transparent' }} />
+                <BarChart data={sessionsBySubject} barSize={30} margin={{ left: 10, right: 10, bottom: 20 }}>
+                  <XAxis 
+                    dataKey="name" 
+                    tick={{ fill: 'var(--foreground, #000000)' }} 
+                    tickFormatter={(value) => value.length > 10 ? `${value.slice(0, 10)}...` : value}
+                    className="dark:text-white"
+                  />
+                  <YAxis tick={{ fill: 'var(--foreground, #000000)' }} className="dark:text-white" />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Bar 
+                    dataKey="sessions" 
+                    fill="hsl(var(--primary))" 
+                    background={{ fill: 'transparent' }}
+                    isAnimationActive={false}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
@@ -90,11 +107,27 @@ const ProgressPage = () => {
             </CardHeader>
             <CardContent className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={feynmanStepCompletion} barSize={40} margin={{ left: 10, right: 10 }}>
-                  <XAxis dataKey="name" tick={{ fill: 'var(--foreground, black)' }} interval={0} />
-                  <YAxis tick={{ fill: 'var(--foreground, black)' }} />
-                  <Tooltip contentStyle={{ backgroundColor: 'var(--background, white)', borderColor: 'var(--border, #e5e7eb)' }} />
-                  <Bar dataKey="completed" fill="hsl(var(--accent))" background={{ fill: 'transparent' }} />
+                <BarChart 
+                  data={feynmanStepCompletion} 
+                  barSize={30} 
+                  margin={{ left: 10, right: 10, bottom: 20 }}
+                  layout="vertical"
+                >
+                  <XAxis type="number" className="dark:text-white" />
+                  <YAxis 
+                    dataKey="name" 
+                    type="category" 
+                    width={80} 
+                    tick={{ fill: 'var(--foreground, #000000)' }} 
+                    className="dark:text-white"
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Bar 
+                    dataKey="completed" 
+                    fill="hsl(var(--accent))" 
+                    background={{ fill: 'transparent' }}
+                    isAnimationActive={false}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
@@ -107,17 +140,18 @@ const ProgressPage = () => {
             </CardHeader>
             <CardContent className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={quizScores}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border, #e5e7eb)" />
-                  <XAxis dataKey="name" tick={{ fill: 'var(--foreground, black)' }} />
-                  <YAxis domain={[0, 100]} tick={{ fill: 'var(--foreground, black)' }} />
-                  <Tooltip contentStyle={{ backgroundColor: 'var(--background, white)', borderColor: 'var(--border, #e5e7eb)' }} />
+                <LineChart data={quizScores} margin={{ left: 10, right: 10, bottom: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border, #e5e7eb)" className="dark:stroke-gray-700" />
+                  <XAxis dataKey="name" tick={{ fill: 'var(--foreground, #000000)' }} className="dark:text-white" />
+                  <YAxis domain={[0, 100]} tick={{ fill: 'var(--foreground, #000000)' }} className="dark:text-white" />
+                  <Tooltip content={<CustomTooltip />} />
                   <Line 
                     type="monotone" 
                     dataKey="score" 
                     stroke="hsl(var(--primary))" 
                     strokeWidth={2} 
                     dot={{ r: 4, fill: "hsl(var(--primary))" }}
+                    isAnimationActive={false}
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -140,13 +174,25 @@ const ProgressPage = () => {
                     outerRadius={100}
                     fill="#8884d8"
                     dataKey="value"
-                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    label={({ name, percent }) => (
+                      <text
+                        x={percent < 0.1 ? 250 : "50%"}
+                        y={percent < 0.1 ? 50 * (1 + gapsCoverage.findIndex(e => e.name === name)) : "50%"}
+                        fill="var(--foreground, #000000)"
+                        textAnchor={percent < 0.1 ? "start" : "middle"}
+                        dominantBaseline="central"
+                        className="dark:fill-white"
+                      >
+                        {`${name}: ${(percent * 100).toFixed(0)}%`}
+                      </text>
+                    )}
+                    isAnimationActive={false}
                   >
                     {gapsCoverage.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={{ backgroundColor: 'var(--background, white)', borderColor: 'var(--border, #e5e7eb)' }} />
+                  <Tooltip content={<CustomTooltip />} />
                 </PieChart>
               </ResponsiveContainer>
             </CardContent>
