@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useSessions } from "@/hooks/use-sessions";
+import { useSessions, SessionWithProgress } from "@/hooks/use-sessions";
 import { useLocation } from "wouter";
 import { toast } from "@/hooks/use-toast";
 
@@ -153,9 +153,9 @@ const SessionsPage = ({ user, aiPersonas }: SessionsPageProps) => {
           </div>
         ) : (
           <AnimatePresence>
-            {sessions && sessions.length > 0 ? (
+            {sessions && Array.isArray(sessions) && sessions.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {sessions.map((session, index) => (
+                {sessions.map((session: SessionWithProgress, index: number) => (
                   <motion.div
                     key={session.id}
                     custom={index}

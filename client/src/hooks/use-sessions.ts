@@ -63,8 +63,7 @@ export function useSessions(userId: number | null) {
         }
       ];
       return mockSessions;
-    },
-    enabled: !!userId
+    }
   });
 
   const createSession = useMutation({
