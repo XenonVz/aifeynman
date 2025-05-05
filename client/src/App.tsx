@@ -26,7 +26,7 @@ const App = () => {
     password: "",
     displayName: "John Doe",
     email: "john@example.com",
-    avatarUrl: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=256&h=256&fit=crop",
+    avatarUrl: "https://api.dicebear.com/7.x/thumbs/svg?seed=John",
     createdAt: new Date(),
   });
 
@@ -37,7 +37,7 @@ const App = () => {
     age: 16,
     interests: ["Science", "Gaming"],
     communicationStyle: "balanced",
-    avatarUrl: "https://images.unsplash.com/photo-1529111290557-82f6d5c6cf85?w=256&h=256&fit=crop",
+    avatarUrl: "https://api.dicebear.com/7.x/bottts/svg?seed=Alex",
     active: true,
     createdAt: new Date(),
   });
