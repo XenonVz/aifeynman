@@ -83,11 +83,11 @@ const ProgressPage = () => {
                 <BarChart data={sessionsBySubject} barSize={30} margin={{ left: 10, right: 10, bottom: 20 }}>
                   <XAxis 
                     dataKey="name" 
-                    tick={{ fill: 'var(--foreground, #000000)' }} 
+                    tick={{ fill: 'var(--foreground, #fff)' }} 
                     tickFormatter={(value) => value.length > 10 ? `${value.slice(0, 10)}...` : value}
-                    className="dark:text-white"
+                    stroke="white"
                   />
-                  <YAxis tick={{ fill: 'var(--foreground, #000000)' }} className="dark:text-white" />
+                  <YAxis tick={{ fill: 'var(--foreground, #fff)' }} stroke="white" />
                   <Tooltip content={<CustomTooltip />} />
                   <Bar 
                     dataKey="sessions" 
@@ -113,13 +113,13 @@ const ProgressPage = () => {
                   margin={{ left: 10, right: 10, bottom: 20 }}
                   layout="vertical"
                 >
-                  <XAxis type="number" className="dark:text-white" />
+                  <XAxis type="number" tick={{ fill: 'var(--foreground, #fff)' }} stroke="white" />
                   <YAxis 
                     dataKey="name" 
                     type="category" 
                     width={80} 
-                    tick={{ fill: 'var(--foreground, #000000)' }} 
-                    className="dark:text-white"
+                    tick={{ fill: 'var(--foreground, #fff)' }} 
+                    stroke="white"
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Bar 
@@ -142,8 +142,8 @@ const ProgressPage = () => {
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={quizScores} margin={{ left: 10, right: 10, bottom: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border, #e5e7eb)" className="dark:stroke-gray-700" />
-                  <XAxis dataKey="name" tick={{ fill: 'var(--foreground, #000000)' }} className="dark:text-white" />
-                  <YAxis domain={[0, 100]} tick={{ fill: 'var(--foreground, #000000)' }} className="dark:text-white" />
+                  <XAxis dataKey="name" tick={{ fill: 'var(--foreground, #fff)' }} stroke="white" />
+                  <YAxis domain={[0, 100]} tick={{ fill: 'var(--foreground, #fff)' }} stroke="white" />
                   <Tooltip content={<CustomTooltip />} />
                   <Line 
                     type="monotone" 
