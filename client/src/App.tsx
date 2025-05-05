@@ -64,7 +64,7 @@ const App = () => {
                   ? <TeachingPage persona={activePersona} user={currentUser} /> 
                   : <OnboardingPage onComplete={handleOnboardComplete} />
               } />
-              <Route path="/sessions" component={SessionsPage} />
+              <Route path="/sessions" component={() => <SessionsPage user={currentUser} aiPersonas={[activePersona]} />} />
               <Route path="/materials" component={MaterialsPage} />
               <Route path="/progress" component={ProgressPage} />
               <Route component={NotFound} />
