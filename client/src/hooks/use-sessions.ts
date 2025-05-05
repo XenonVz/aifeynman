@@ -30,39 +30,12 @@ export function useSessions(userId: number | null) {
     queryFn: async () => {
       if (!userId) return [];
       
-      // For now, use mock data
-      // In a real implementation, we would use:
-      // const response = await apiRequest('GET', `/api/sessions?userId=${userId}`);
-      // return response.json();
+      // In a real implementation, we would fetch from the API
+      const response = await apiRequest('GET', `/api/sessions?userId=${userId}`);
+      return await response.json();
       
-      // Mock data
-      const mockSessions: SessionWithProgress[] = [
-        {
-          id: 1,
-          title: "Newton's Laws of Motion",
-          date: "Today, 2:30 PM",
-          progress: 75,
-          steps: ["explain", "review", "simplify"],
-          persona: {
-            name: "Alex",
-            avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Alex&backgroundColor=ffb300"
-          },
-          topic: "Physics"
-        },
-        {
-          id: 2,
-          title: "Photosynthesis Process",
-          date: "Yesterday, 4:15 PM",
-          progress: 100,
-          steps: ["explain", "review", "simplify", "analogize"],
-          persona: {
-            name: "Jamie",
-            avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Jamie&backgroundColor=0096c7"
-          },
-          topic: "Biology"
-        }
-      ];
-      return mockSessions;
+      // For now, return an empty array - we'll let users create their own sessions
+      return [];
     }
   });
 

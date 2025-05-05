@@ -65,8 +65,8 @@ const App = () => {
                   : <OnboardingPage onComplete={handleOnboardComplete} />
               } />
               <Route path="/sessions" component={() => <SessionsPage user={currentUser} aiPersonas={activePersona ? [activePersona] : []} />} />
-              <Route path="/materials" component={MaterialsPage} />
-              <Route path="/progress" component={ProgressPage} />
+              <Route path="/materials" component={() => <MaterialsPage user={currentUser} />} />
+              <Route path="/progress" component={() => <ProgressPage user={currentUser} />} />
               <Route component={NotFound} />
             </Switch>
           </main>
