@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
+import { ThemeProvider } from "./components/ThemeProvider";
 
 // Add FontAwesome
 const fontAwesomeScript = document.createElement("script");
@@ -19,4 +20,8 @@ const title = document.createElement("title");
 title.textContent = "Feynman Teacher";
 document.head.appendChild(title);
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(
+  <ThemeProvider>
+    <App />
+  </ThemeProvider>
+);
