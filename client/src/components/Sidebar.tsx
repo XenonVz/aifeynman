@@ -7,6 +7,7 @@ import {
   DialogContent, 
   DialogHeader, 
   DialogTitle,
+  DialogDescription,
   DialogFooter
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -143,36 +144,36 @@ const Sidebar = ({ user, persona }: SidebarProps) => {
       <nav className="flex-1 pt-4">
         <div className="px-3 py-2 text-sm font-medium text-neutral-500 dark:text-gray-400">MAIN MENU</div>
         <Link href="/">
-          <a className={`flex items-center px-6 py-3 ${location === "/" 
+          <div className={`flex items-center px-6 py-3 cursor-pointer ${location === "/" 
             ? "text-neutral-900 dark:text-white bg-neutral-100 dark:bg-gray-800 border-r-4 border-primary" 
             : "text-neutral-700 dark:text-gray-300 hover:bg-neutral-50 dark:hover:bg-gray-800"}`}>
             <i className={`fas fa-comment-alt w-5 mr-3 ${location === "/" ? "text-primary" : "text-neutral-500 dark:text-gray-400"}`}></i>
             <span>Teach AI</span>
-          </a>
+          </div>
         </Link>
         <Link href="/sessions">
-          <a className={`flex items-center px-6 py-3 ${location === "/sessions" 
+          <div className={`flex items-center px-6 py-3 cursor-pointer ${location === "/sessions" 
             ? "text-neutral-900 dark:text-white bg-neutral-100 dark:bg-gray-800 border-r-4 border-primary" 
             : "text-neutral-700 dark:text-gray-300 hover:bg-neutral-50 dark:hover:bg-gray-800"}`}>
             <i className={`fas fa-history w-5 mr-3 ${location === "/sessions" ? "text-primary" : "text-neutral-500 dark:text-gray-400"}`}></i>
             <span>Sessions</span>
-          </a>
+          </div>
         </Link>
         <Link href="/materials">
-          <a className={`flex items-center px-6 py-3 ${location === "/materials" 
+          <div className={`flex items-center px-6 py-3 cursor-pointer ${location === "/materials" 
             ? "text-neutral-900 dark:text-white bg-neutral-100 dark:bg-gray-800 border-r-4 border-primary" 
             : "text-neutral-700 dark:text-gray-300 hover:bg-neutral-50 dark:hover:bg-gray-800"}`}>
             <i className={`fas fa-file-alt w-5 mr-3 ${location === "/materials" ? "text-primary" : "text-neutral-500 dark:text-gray-400"}`}></i>
             <span>Materials</span>
-          </a>
+          </div>
         </Link>
         <Link href="/progress">
-          <a className={`flex items-center px-6 py-3 ${location === "/progress" 
+          <div className={`flex items-center px-6 py-3 cursor-pointer ${location === "/progress" 
             ? "text-neutral-900 dark:text-white bg-neutral-100 dark:bg-gray-800 border-r-4 border-primary" 
             : "text-neutral-700 dark:text-gray-300 hover:bg-neutral-50 dark:hover:bg-gray-800"}`}>
             <i className={`fas fa-chart-bar w-5 mr-3 ${location === "/progress" ? "text-primary" : "text-neutral-500 dark:text-gray-400"}`}></i>
             <span>Progress</span>
-          </a>
+          </div>
         </Link>
         
         {/* Current AI Profile */}
@@ -229,6 +230,9 @@ const Sidebar = ({ user, persona }: SidebarProps) => {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit AI Companion Profile</DialogTitle>
+            <DialogDescription>
+              Update your AI companion's details to personalize your learning experience.
+            </DialogDescription>
           </DialogHeader>
           
           <div className="grid gap-4 py-4">
@@ -315,14 +319,7 @@ const Sidebar = ({ user, persona }: SidebarProps) => {
               onClick={handleSave}
               disabled={updatePersona.isPending}
             >
-              {updatePersona.isPending ? (
-                <>
-                  <i className="fas fa-spinner fa-spin mr-2"></i>
-                  Saving...
-                </>
-              ) : (
-                "Save Changes"
-              )}
+              {updatePersona.isPending ? "Saving..." : "Save Changes"}
             </Button>
           </DialogFooter>
         </DialogContent>
