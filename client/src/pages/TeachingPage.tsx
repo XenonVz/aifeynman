@@ -165,6 +165,7 @@ const TeachingPage = ({ persona, user }: TeachingPageProps) => {
             persona={persona}
             showFeedback={message.role === "ai" && feynmanProgress.currentStep === "explain"}
             onFeedback={(feedback) => getFeedback(feedback, message.content)}
+            onSendMessage={handleMessageSend}
           />
         ))}
         

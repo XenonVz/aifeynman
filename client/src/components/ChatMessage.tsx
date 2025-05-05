@@ -2,6 +2,7 @@ import { ChatMessage as ChatMessageType } from "@/types";
 import { User, AiPersona } from "@shared/schema";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { toast } from "@/hooks/use-toast";
 
 interface ChatMessageProps {
   message: ChatMessageType;
@@ -9,6 +10,7 @@ interface ChatMessageProps {
   persona: AiPersona | null;
   onFeedback?: (feedback: "good" | "confused") => void;
   showFeedback?: boolean;
+  onSendMessage?: (message: string) => void;
 }
 
 const ChatMessage = ({
@@ -17,6 +19,7 @@ const ChatMessage = ({
   persona,
   onFeedback,
   showFeedback = false,
+  onSendMessage,
 }: ChatMessageProps) => {
   const isAi = message.role === "ai";
   const avatar = isAi ? persona?.avatarUrl : user?.avatarUrl;
@@ -102,6 +105,39 @@ const ChatMessage = ({
   const typingIndicatorStyles = `
     inline-block h-2 w-2 rounded-full bg-accent mr-1 opacity-70
   `;
+
+  // Function handlers for Feynman review step buttons
+  const handleFeynmanFeedback = (feedbackType: string) => {
+    if (!onSendMessage) return;
+    
+    let responseMessage = "";
+    switch (feedbackType) {
+      case "simpler":
+        responseMessage = "I need you to use simpler language in your explanation. Could you explain this again with less technical terms?";
+        break;
+      case "examples":
+        responseMessage = "Could you add some real-world examples to help me understand this concept better?";
+        break;
+      case "misconception":
+        responseMessage = "I think I have a misconception about this topic. Can you help correct my understanding?";
+        break;
+      case "continue":
+        responseMessage = "That was a good explanation. Let's move to the simplify step now.";
+        break;
+      default:
+        return;
+    }
+
+    // Show toast notification
+    toast({
+      title: "Feedback sent",
+      description: "Your feedback has been sent to the AI",
+      duration: 3000,
+    });
+
+    // Send the message
+    onSendMessage(responseMessage);
+  };
   
   return (
     <motion.div 
@@ -177,7 +213,14 @@ const ChatMessage = ({
           >
             <motion.button 
               className="px-3 py-1.5 text-xs bg-neutral-100 dark:bg-gray-800 text-neutral-700 dark:text-gray-300 rounded-full hover:bg-neutral-200 dark:hover:bg-gray-700"
-              onClick={() => onFeedback("good")}
+              onClick={() => {
+                onFeedback("good");
+                toast({
+                  title: "Feedback recorded",
+                  description: "Thank you for the positive feedback!",
+                  duration: 3000,
+                });
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -185,7 +228,14 @@ const ChatMessage = ({
             </motion.button>
             <motion.button 
               className="px-3 py-1.5 text-xs bg-neutral-100 dark:bg-gray-800 text-neutral-700 dark:text-gray-300 rounded-full hover:bg-neutral-200 dark:hover:bg-gray-700"
-              onClick={() => onFeedback("confused")}
+              onClick={() => {
+                onFeedback("confused");
+                toast({
+                  title: "Feedback recorded",
+                  description: "We'll try to clarify things better.",
+                  duration: 3000,
+                });
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -196,7 +246,7 @@ const ChatMessage = ({
       </AnimatePresence>
       
       <AnimatePresence>
-        {message.feynmanStep === 'review' && isAi && !isTyping && (
+        {message.feynmanStep === 'review' && isAi && !isTyping && onSendMessage && (
           <motion.div 
             className="mt-3 ml-11"
             initial={{ opacity: 0, y: -10 }}
@@ -215,6 +265,7 @@ const ChatMessage = ({
               <div className="flex flex-wrap gap-2">
                 <motion.button 
                   className="px-3 py-1.5 text-xs bg-white dark:bg-gray-700 border border-neutral-200 dark:border-gray-600 text-neutral-700 dark:text-gray-300 rounded-full hover:bg-neutral-100 dark:hover:bg-gray-600 hover:border-neutral-300 dark:hover:border-gray-500"
+                  onClick={() => handleFeynmanFeedback("simpler")}
                   whileHover={{ scale: 1.05, backgroundColor: "#f0f0f0" }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -222,6 +273,7 @@ const ChatMessage = ({
                 </motion.button>
                 <motion.button 
                   className="px-3 py-1.5 text-xs bg-white dark:bg-gray-700 border border-neutral-200 dark:border-gray-600 text-neutral-700 dark:text-gray-300 rounded-full hover:bg-neutral-100 dark:hover:bg-gray-600 hover:border-neutral-300 dark:hover:border-gray-500"
+                  onClick={() => handleFeynmanFeedback("examples")}
                   whileHover={{ scale: 1.05, backgroundColor: "#f0f0f0" }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -229,6 +281,7 @@ const ChatMessage = ({
                 </motion.button>
                 <motion.button 
                   className="px-3 py-1.5 text-xs bg-white dark:bg-gray-700 border border-neutral-200 dark:border-gray-600 text-neutral-700 dark:text-gray-300 rounded-full hover:bg-neutral-100 dark:hover:bg-gray-600 hover:border-neutral-300 dark:hover:border-gray-500"
+                  onClick={() => handleFeynmanFeedback("misconception")}
                   whileHover={{ scale: 1.05, backgroundColor: "#f0f0f0" }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -236,6 +289,7 @@ const ChatMessage = ({
                 </motion.button>
                 <motion.button 
                   className="px-3 py-1.5 text-xs bg-accent/20 dark:bg-accent/10 border border-accent/30 text-accent-dark dark:text-accent rounded-full"
+                  onClick={() => handleFeynmanFeedback("continue")}
                   whileHover={{ scale: 1.05, backgroundColor: "rgba(52, 211, 153, 0.25)" }}
                   whileTap={{ scale: 0.95 }}
                 >
